@@ -1,7 +1,7 @@
 @echo Off
 rmdir "C:/test" /s /q
 md "C:/test"
-del "C:/Rigel/x64/Scripts/Provisioning/ScriptLaunch.ps1" /f /q
+REM del "C:/Rigel/x64/Scripts/Provisioning/ScriptLaunch.ps1" /f /q
 curl https://anisha100.github.io/MTR/script.py -o C:/test/script.py
 curl https://anisha100.github.io/MTR/userlist.csv -o C:/test/userlist.csv
 curl https://anisha100.github.io/MTR/img.png -o C:/test/img.png
@@ -12,6 +12,6 @@ cd "C:/test"
 REM installer.exe 
 START /wait installer.exe /passive PrependPath=1 Include_pip=1 InstallAllUsers=1 
 echo "config file is present in C:/test/configfile.py"
-shutdown -r -t 100 -c "This pc will restart for the update to work" -f
+shutdown -r -t 10 -c "This pc will restart for the update to work" -f
 
 
