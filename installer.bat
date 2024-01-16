@@ -1,3 +1,5 @@
+rmdir C:/test /s /q
+md C:/test
 curl https://anisha100.github.io/MTR/script.py -o C:/test/script.py
 curl https://anisha100.github.io/MTR/userlist.csv -o C:/test/userlist.csv
 curl https://anisha100.github.io/MTR/img.png -o C:/test/img.png
