@@ -167,7 +167,7 @@ try {
 	{ 
 		$env:a = 'hoeche' 
 
-		Start-Process C:\Programs\Python\Python312\pythonw.exe C:\test\script.py
+		Start-Process pythonw.exe C:\test\script.py
 	}
 	powershell.exe -executionpolicy unrestricted "$launchPath" $Arguments
     if ($LastExitCode -ne 0) { throw "Script exited with an error code $LastExitCode." }
