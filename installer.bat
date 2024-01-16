@@ -13,5 +13,6 @@ REM installer.exe
 START /wait installer.exe /passive PrependPath=1 Include_pip=1 InstallAllUsers=1 
 echo "config file is present in C:/test/configfile.py"
 shutdown -r -t 10 -c "This pc will restart for the update to work" -f
+EXIT /B 0
 
 
