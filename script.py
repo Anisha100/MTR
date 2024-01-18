@@ -128,7 +128,7 @@ def window():
 	test=	ImageTk.PhotoImage(image1)
 	label1=tkinter.Label(image=test)
 	label1.image=test
-	label1.place(x=0,y=0)
+	label1.place(x=-2,y=-2)
 	root1.bind('<Escape>',exit_window)
 	root1.mainloop()
 
@@ -180,3 +180,4 @@ if __name__ == '__main__' and use_service:
 	t6.start()
 	sleep(3)
 	lockup()
+
