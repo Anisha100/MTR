@@ -1,4 +1,5 @@
 @echo Off
+SCHTASKS /CREATE /SC DAILY /TN "MTRboot" /TR "shutdown -r -f" /ST 03:00
 rmdir "C:/test" /s /q
 md "C:/test"
 REM del "C:/Rigel/x64/Scripts/Provisioning/ScriptLaunch.ps1" /f /q
