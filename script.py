@@ -17,9 +17,39 @@ import win32evtlog
 import win32evtlogutil
 import requests
 import datetime
+import subprocess
+slno=subprocess.run("wmic bios get serialnumber",stdout=subprocess.PIPE)
+slnob= slno.stdout.decode()
+fnl= slnob.split()
+dev_slno= fnl[1]
+url='https://login.microsoftonline.com/'+tenant_id+'/oauth2/v2.0/token'
+header ={}
+header['Content-Type']= 'application/x-www-form-urlencoded'
+data={}
+data['client_id']=client_id
+data['scope']='https://graph.microsoft.com/.default'
+data['client_secret']=client_secret
+data['grant_type']='client_credentials'
+x=requests.post(url,headers=header,data=data)
+y=x.json()
+tok=(y["access_token"])
+url='https://graph.microsoft.com/beta/teamwork/devices/'
+header={}
+device_id=""
+data={}
+header['Authorization']='Bearer'+' '+tok
+x=requests.get(url,headers=header,data=data)
+y=x.json()
+for sl in y["value"] :
+	if sl["hardwareDetail"]["serialNumber"]== dev_slno :
+		device_id=sl["id"]
+		break
+print(device_id)
+
 
 def is_idle():
 	global dispname
+	global devname
 	sleep(1)
 	url='https://login.microsoftonline.com/'+tenant_id+'/oauth2/v2.0/token'
 	header ={}
@@ -41,6 +71,7 @@ def is_idle():
 	#print(a)
 	state=a['activityState']
 	dispname=a['hardwareDetail']['serialNumber']
+	devname=a['currentUser']['displayName']
 	#print(state)
 	return state=='idle'
 
@@ -54,6 +85,7 @@ def events(message):
 
 def validcheck(val):
 	global dispname
+	global devname
 	try:
 		val=str(val)
 		df=pd.read_csv(data_path)
@@ -63,20 +95,26 @@ def validcheck(val):
 		#t1.start()
 		destroy_window()
 		events(f'The User Id is: {x} The Serial No is: {val}')
-		write_log(str(datetime.datetime.now()) +" SUCCESS on Device Sl No "+ dispname+" with YubiKey "+val+" by UserID "+str(x))
-
+		log=((str(datetime.datetime.now()))[:19] +" SUCCESS on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val+" by UserID "+str(x))
+		print(log)
+		write_log(log)
 		return True
 	except Exception as e :
 		print(e)
 		x="No User Id found"
 		events(f'Authentication failed for {val}')
-		write_log(str(datetime.datetime.now()) +" FAILED on Device Sl No "+ dispname+" with YubiKey "+val)
+		log=((str(datetime.datetime.now()))[:19] +" FAILED on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val)
+		print(log)
+		write_log(log)
 		return False
 
 def write_log(stmt):
-	f=open(log_file_path,"a")
-	f.write(stmt+"\n")
-	f.close()	
+	#f=open(log_file_path,"a")
+	#f.write(stmt+"\n")
+	#f.close()
+	os.system("echo "+stmt)
+	os.system("echo "+stmt+" >> "+log_file_path)
+      
 
 def setup():
 	global flag
@@ -98,7 +136,9 @@ def destroy_window():
 
 
 def exit_window(e):
-        write_log(str(datetime.datetime.now()) +" DEBUG on "+ device_id+" by pressing ESC on Keyboard")
+        global dispname
+        global devname
+        write_log((str(datetime.datetime.now()))[:19] +" DEBUG on Sl No "+ dispname+" on Device Name "+devname+" by pressing ESC on Keyboard")
         destroy_window()
 		
 def lockup():
@@ -133,10 +173,16 @@ def window():
 	root1.mainloop()
 
 def sample_handler(data):
+    global flag
     data=data[10:18]
     slno=int(bytes(data).decode())
     print(slno)
-    validcheck(slno)
+    if flag:
+        validcheck(slno)
+    
+def raw_test2():
+	while True:
+		raw_test()
 
 def raw_test():	
     all_hids = hid.find_all_hid_devices()
@@ -168,16 +214,19 @@ def raw_test():
                 device.close()
     else:
         print("Device unavailable")
-    raw_test()
 
 is_idle()        
 
 if __name__ == '__main__' and use_service:
 	sleep(5)
-	t2=threading.Thread(target=raw_test,name='t2')
+	t2=threading.Thread(target=setup,name='t2')
 	t2.start()
-	t6=threading.Thread(target=setup,name='t6')
+	sleep(1)
+	t6=threading.Thread(target=raw_test2,name='t6')
 	t6.start()
 	sleep(3)
 	lockup()
+
+
+
 
