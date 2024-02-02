@@ -18,6 +18,14 @@ import win32evtlogutil
 import requests
 import datetime
 import subprocess
+import logging
+
+logger=logging.getLogger("MTR_log")
+logger.setLevel(logging.DEBUG)
+fh=logging.FileHandler(log_file_path)
+fh.setLevel(logging.DEBUG)
+logger.addHandler(fh)
+
 slno=subprocess.run("wmic bios get serialnumber",stdout=subprocess.PIPE)
 slnob= slno.stdout.decode()
 fnl= slnob.split()
@@ -68,20 +76,18 @@ def is_idle():
 	header['Authorization']='Bearer'+' '+tok
 	z=requests.get(url,headers=header,data=data)
 	a=z.json()
-	#print(a)
 	state=a['activityState']
 	dispname=a['hardwareDetail']['serialNumber']
 	devname=a['currentUser']['displayName']
-	#print(state)
 	return state=='idle'
 
 def events(message):
-	DUMMY_EVT_APP_NAME = "Authentication request "
+	DUMMY_EVT_APP_NAME = "Authentication request MTR"
 	DUMMY_EVT_ID = 7040  
 	DUMMY_EVT_CATEG = 9876
 	DUMMY_EVT_STRS = [message]
 	DUMMY_EVT_DATA = message.encode()
-	win32evtlogutil.ReportEvent(DUMMY_EVT_APP_NAME, DUMMY_EVT_ID, eventCategory=DUMMY_EVT_CATEG, eventType=win32evtlog.EVENTLOG_WARNING_TYPE, strings=DUMMY_EVT_STRS,data=DUMMY_EVT_DATA)
+	win32evtlogutil.ReportEvent(DUMMY_EVT_APP_NAME, DUMMY_EVT_ID, eventCategory=DUMMY_EVT_CATEG, eventType=win32evtlog.EVENTLOG_INFORMATION_TYPE, strings=DUMMY_EVT_STRS,data=DUMMY_EVT_DATA)
 
 def validcheck(val):
 	global dispname
@@ -94,26 +100,16 @@ def validcheck(val):
 		#t1=threading.Thread(target=pop,name='t1',args=(str(x),val))
 		#t1.start()
 		destroy_window()
-		events(f'The User Id is: {x} The Serial No is: {val}')
 		log=((str(datetime.datetime.now()))[:19] +" SUCCESS on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val+" by UserID "+str(x))
-		print(log)
 		write_log(log)
-		return True
-	except Exception as e :
-		print(e)
+	except:
 		x="No User Id found"
-		events(f'Authentication failed for {val}')
 		log=((str(datetime.datetime.now()))[:19] +" FAILED on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val)
-		print(log)
 		write_log(log)
-		return False
 
 def write_log(stmt):
-	#f=open(log_file_path,"a")
-	#f.write(stmt+"\n")
-	#f.close()
-	os.system("echo "+stmt)
-	os.system("echo "+stmt+" >> "+log_file_path)
+	logger.info(stmt)
+	events(stmt)
       
 
 def setup():
@@ -122,7 +118,7 @@ def setup():
 	desttime=0
 	flag=False
 	window()
-	destroy_window()
+
 	
 def destroy_window():
 	global root1
@@ -158,7 +154,9 @@ def show_window():
 		root1.deiconify()
 
 def window():
+	global flag
 	global root1
+	flag=True
 	root1 = Tk()
 	root1.attributes('-fullscreen',True)
 	root1.attributes('-topmost',True)
@@ -176,8 +174,9 @@ def sample_handler(data):
     global flag
     data=data[10:18]
     slno=int(bytes(data).decode())
-    print(slno)
+    print("handler before if", slno, " ", flag)
     if flag:
+        print("handler check ",slno)
         validcheck(slno)
     
 def raw_test2():
@@ -218,15 +217,11 @@ def raw_test():
 is_idle()        
 
 if __name__ == '__main__' and use_service:
-	sleep(5)
-	t2=threading.Thread(target=setup,name='t2')
+	sleep(1)
+	t2=threading.Thread(target=raw_test2,name='t2')
 	t2.start()
 	sleep(1)
-	t6=threading.Thread(target=raw_test2,name='t6')
+	t6=threading.Thread(target=setup,name='t6')
 	t6.start()
-	sleep(3)
+	sleep(5)
 	lockup()
-
-
-
-
