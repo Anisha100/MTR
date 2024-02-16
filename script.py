@@ -102,10 +102,11 @@ def validcheck(val):
 		destroy_window()
 		log=((str(datetime.datetime.now()))[:19] +" SUCCESS on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val+" by UserID "+str(x))
 		write_log(log)
-	except:
+	except Exception as e:
 		x="No User Id found"
 		log=((str(datetime.datetime.now()))[:19] +" FAILED on Device Sl No "+ dispname+" on Device Name "+devname+" with Security Key "+val)
 		write_log(log)
+		write_log(str(e))
 
 def write_log(stmt):
 	logger.info(stmt)
