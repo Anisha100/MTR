@@ -1,6 +1,6 @@
 @echo Off
 powercfg /h off
-REMSCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
+REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot3" /TR "shutdown -r -f" /ST 03:00 /F >> C:\installerlog.txt 
 echo "Completed MTRboot" >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot4" /TR "logoff" /RU Skype /ST 07:45 /IT /F >> C:\installerlog.txt 
