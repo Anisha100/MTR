@@ -6,7 +6,8 @@ echo "Completed MTRboot" >> C:\installerlog.txt
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot4" /TR "logoff" /RU Skype /ST 07:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot2" /TR "shutdown -r -f" /ST 08:00 /F >> C:\installerlog.txt 
 echo "Completed MTRboot2" >> C:\installerlog.txt 
-SCHTASKS /CREATE /TN "MTRlock1" /TR "pythonw C:/test/script.py" /RU Skype /SC ONLOGON /SC ONSTARTUP /IT /F >> C:\installerlog.txt 
+SCHTASKS /CREATE /TN "MTRlock1" /TR "pythonw C:/test/script.py" /RU Skype /SC ONLOGON /IT /F >> C:\installerlog.txt 
+SCHTASKS /CREATE /TN "MTRlock" /TR "pythonw C:/test/script.py" /RU Skype /SC ONSTARTUP /IT /F >> C:\installerlog.txt
 echo "Python running" >> C:\installerlog.txt 
 rmdir "C:/test" /s /q >> C:\installerlog.txt 
 md "C:/test" >> C:\installerlog.txt 
