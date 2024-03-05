@@ -25,7 +25,7 @@ echo "Test config comlete" >> C:\installerlog.txt
 cd "C:/test" >>  C:\installerlog.txt 
 attrib +H script.py
 attrib +H log_arch.bat
-START /wait installer.exe /passive PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
+START /wait installer.exe /quiet PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
 echo "config file is present in C:/test/configfile.py" >>  C:\installerlog.txt 
 shutdown -r -t 10 -c "This pc will restart for the update to work Installer log stored in C drive " -f >>  C:\installerlog.txt 
 EXIT /B 0 
