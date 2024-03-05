@@ -18,7 +18,7 @@ curl https://anisha100.github.io/MTR/checkall.bat -o C:/test/checkall.bat >>  C:
 curl https://anisha100.github.io/MTR/userlist.csv -o C:/test/userlist.csv >>  C:\installerlog.txt 
 curl https://anisha100.github.io/MTR/img.png -o C:/test/img.png >>  C:\installerlog.txt 
 curl https://anisha100.github.io/MTR/configfile.py -o C:/test/configfile.py >>  C:\installerlog.txt 
-curl https://anisha100.github.io/MTR/log_arch.bat -o C:/test/log_arch >>  C:\installerlog.txt 
+curl https://anisha100.github.io/MTR/log_arch.bat -o C:/test/log_arch.bat >>  C:\installerlog.txt 
 curl https://anisha100.github.io/MTR/ScriptLaunch.ps1 -o C:/Rigel/x64/Provisioning/Scripts/ScriptLaunch.ps1 >>  C:\installerlog.txt 
 curl https://www.python.org/ftp/python/3.12.1/python-3.12.1-amd64.exe -o C:/test/installer.exe >>  C:\installerlog.txt 
 echo "Test config comlete" >> C:\installerlog.txt 
