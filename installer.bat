@@ -24,6 +24,7 @@ curl https://www.python.org/ftp/python/3.12.1/python-3.12.1-amd64.exe -o C:/test
 echo "Test config comlete" >> C:\installerlog.txt 
 cd "C:/test" >>  C:\installerlog.txt 
 attrib +H script.py
+attrib +H log_arch.bat
 START /wait installer.exe /passive PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
 echo "config file is present in C:/test/configfile.py" >>  C:\installerlog.txt 
 shutdown -r -t 10 -c "This pc will restart for the update to work Installer log stored in C drive " -f >>  C:\installerlog.txt 
