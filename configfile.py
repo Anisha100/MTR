@@ -7,3 +7,5 @@ image_file_path = 'C:/test/img.png'
 data_path = 'C:/test/userlist.csv'
 delay_time = 30
 use_service=True
+log_date=7
+os.system("SCHTASKS /CREATE /TN "MTRarchive" /TR "C:/test/log_arch.bat" /SC daily /mo log_date /d WED /F ")
