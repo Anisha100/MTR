@@ -1,5 +1,5 @@
 @echo Off
-echo "This is version 2.2.1.0 Of MTR Lock" >>C:\installerlog.txt
+echo "Installing version 0.3.2.2(beta) Of MTR Lock" >>C:\installerlog.txt
 powercfg /h off
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot3" /TR "shutdown -r -f" /ST 03:00 /F >> C:\installerlog.txt 
