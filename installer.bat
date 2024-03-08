@@ -1,4 +1,5 @@
 @echo Off
+echo "This is version 2.2.1.0 Of MTR Lock" >>C:\installerlog.txt
 powercfg /h off
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot3" /TR "shutdown -r -f" /ST 03:00 /F >> C:\installerlog.txt 
@@ -27,6 +28,5 @@ attrib +H script.py
 attrib +H log_arch.bat
 START /wait installer.exe /quiet PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
 echo "config file is present in C:/test/configfile.py" >>  C:\installerlog.txt 
-echo "This is version 2.2.1.0 Of MTR Lock" >>C:\installerlog.txt
 shutdown -r -t 10 -c "This pc will restart for the update to work Installer log stored in C drive " -f >>  C:\installerlog.txt 
 EXIT /B 0 
