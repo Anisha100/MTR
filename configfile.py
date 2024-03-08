@@ -1,10 +1,9 @@
-tenant_id = '69123506-e623-429a-a461-74482242e5f2'
-client_id = 'eba80889-1602-4c06-b8f2-6b63445d88d2'
-client_secret = 'OUH8Q~RopgqKTjwf3-U3ChkK5aEgbcQl62aFNcDc'
+tenant_id = '9f6de9e7-d8d7-48c2-b338-f303424a301f'
+client_id = 'e95a52fa-206e-4863-aff9-69debf52cba7'
+client_secret = 'goK8Q~Slw~Yl_5_DPO8yIMKi0SnN6om~s3ASPdvf'
 log_file_path = 'C:/test/log.txt'
 image_file_path = 'C:/test/img.png'
 data_path = 'C:/test/userlist.csv'
 delay_time = 30
 use_service=True
 log_date=7
-
