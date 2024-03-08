@@ -25,34 +25,38 @@ logger.setLevel(logging.DEBUG)
 fh=logging.FileHandler(log_file_path)
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
-
-slno=subprocess.run("wmic bios get serialnumber",stdout=subprocess.PIPE)
-slnob= slno.stdout.decode()
-fnl= slnob.split()
-dev_slno= fnl[1]
-url='https://login.microsoftonline.com/'+tenant_id+'/oauth2/v2.0/token'
-header ={}
-header['Content-Type']= 'application/x-www-form-urlencoded'
-data={}
-data['client_id']=client_id
-data['scope']='https://graph.microsoft.com/.default'
-data['client_secret']=client_secret
-data['grant_type']='client_credentials'
-x=requests.post(url,headers=header,data=data)
-y=x.json()
-tok=(y["access_token"])
-url='https://graph.microsoft.com/beta/teamwork/devices/'
-header={}
 device_id=""
-data={}
-header['Authorization']='Bearer'+' '+tok
-x=requests.get(url,headers=header,data=data)
-y=x.json()
-for sl in y["value"] :
-	if sl["hardwareDetail"]["serialNumber"]== dev_slno :
-		device_id=sl["id"]
+
+try:
+	slno=subprocess.run("wmic bios get serialnumber",stdout=subprocess.PIPE)
+	slnob= slno.stdout.decode()
+	fnl= slnob.split()
+	dev_slno= fnl[1]
+	url='https://login.microsoftonline.com/'+tenant_id+'/oauth2/v2.0/token'
+	header ={}
+	header['Content-Type']= 'application/x-www-form-urlencoded'
+	data={}
+	data['client_id']=client_id
+	data['scope']='https://graph.microsoft.com/.default'
+	data['client_secret']=client_secret
+	data['grant_type']='client_credentials'
+	x=requests.post(url,headers=header,data=data)
+	y=x.json()
+	tok=(y["access_token"])
+	url='https://graph.microsoft.com/beta/teamwork/devices/'
+	header={}
+	
+	data={}
+	header['Authorization']='Bearer'+' '+tok
+	x=requests.get(url,headers=header,data=data)
+	y=x.json()
+	for sl in y["value"] :
+		if sl["hardwareDetail"]["serialNumber"]== dev_slno :
+			device_id=sl["id"]
 		break
-print(device_id)
+	print(device_id)
+except:
+	pass
 
 
 def is_idle():
