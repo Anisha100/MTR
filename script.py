@@ -58,8 +58,13 @@ try:
 except:
 	pass
 
-
 def is_idle():
+	if device_id!="":
+		return is_idle2()
+	else:
+		return True
+
+def is_idle2():
 	global dispname
 	global devname
 	sleep(1)
