@@ -53,7 +53,7 @@ try:
 	for sl in y["value"] :
 		if sl["hardwareDetail"]["serialNumber"]== dev_slno :
 			device_id=sl["id"]
-		break
+			break
 	print(device_id)
 except:
 	pass
