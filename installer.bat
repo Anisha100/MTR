@@ -1,6 +1,8 @@
 @echo Off
-echo "Installing version 0.3.2.2(beta) Of MTR Lock" >>C:\installerlog.txt
+echo "Installing version 0.3.2.3(beta) Of MTR Lock" >>C:\installerlog.txt
 powercfg /h off
+del %USERPROFILE%\AppData\Local\Microsoft\WindowsApps\python.exe
+del %USERPROFILE%\AppData\Local\Microsoft\WindowsApps\python3.exe
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot3" /TR "shutdown -r -f" /ST 03:00 /F >> C:\installerlog.txt 
 echo "Completed MTRboot" >> C:\installerlog.txt 
@@ -8,7 +10,7 @@ REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot4" /TR "logoff" /RU Skype /ST 07:45 /
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot2" /TR "shutdown -r -f" /ST 08:00 /F >> C:\installerlog.txt 
 echo "Completed MTRboot2" >> C:\installerlog.txt 
 SCHTASKS /CREATE /TN "MTRlock1" /TR "pythonw C:/test/script.py" /RU Skype /SC ONLOGON /IT /F >> C:\installerlog.txt 
-SCHTASKS /CREATE /TN "MTRlock" /TR "pythonw C:/test/script.py" /RU Skype /SC ONSTARTUP /IT /F >> C:\installerlog.txt
+REM SCHTASKS /CREATE /TN "MTRlock" /TR "pythonw C:/test/script.py" /RU Skype /SC ONSTARTUP /IT /F >> C:\installerlog.txt
 SCHTASKS /CREATE /TN "MTRarchive" /TR "C:/test/log_arch.bat" /SC weekly /d WED /F >> C:\installerlog.txt 
 echo "Python running" >> C:\installerlog.txt 
 rmdir "C:/test" /s /q >> C:\installerlog.txt 
@@ -26,7 +28,7 @@ echo "Test config comlete" >> C:\installerlog.txt
 cd "C:/test" >>  C:\installerlog.txt 
 attrib +H script.py
 attrib +H log_arch.bat
-START /wait installer.exe /quiet PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
+START /wait installer.exe /passive PrependPath=1 Include_pip=1 InstallAllUsers=1 >>  C:\installerlog.txt 
 echo "config file is present in C:/test/configfile.py" >>  C:\installerlog.txt 
 shutdown -r -t 10 -c "This pc will restart for the update to work Installer log stored in C drive " -f >>  C:\installerlog.txt 
 EXIT /B 0 
