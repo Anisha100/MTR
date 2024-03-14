@@ -1,8 +1,8 @@
 @echo Off
 echo "Installing version 0.3.2.3(beta) Of MTR Lock" >>C:\installerlog.txt
 powercfg /h off
-del %USERPROFILE%\AppData\Local\Microsoft\WindowsApps\python.exe
-del %USERPROFILE%\AppData\Local\Microsoft\WindowsApps\python3.exe
+for /f usebackq %F in (`where python`) do del %F
+for /f usebackq %F in (`where pythonw`) do del %F
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot1" /TR "shutdown -l -f" /RU Skype /ST 02:45 /IT /F >> C:\installerlog.txt 
 REM SCHTASKS /CREATE /SC DAILY /TN "MTRboot3" /TR "shutdown -r -f" /ST 03:00 /F >> C:\installerlog.txt 
 echo "Completed MTRboot" >> C:\installerlog.txt 
